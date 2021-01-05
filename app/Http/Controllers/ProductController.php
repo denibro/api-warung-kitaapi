@@ -7,8 +7,92 @@ use App\Product;
 
 class ProductController extends Controller
 {
+
+// WEB
     function post(Request $request)
     {
+        
+        $product = new Product;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->quantity  = $request->quantity;
+        $product->active  = $request->active;
+        $product->desctiption  = $request->desctiption;
+
+        $product->save();
+        return redirect('/product');
+        return response()->json(
+            [
+                "message" => "inputan suskses",
+                "data" => $product
+            ]
+        );
+    }
+
+
+    function get()
+    {
+        $data = \App\Product::all();
+        return view('barang.index',['data' => $data]);
+
+    }
+
+    function getbyid($id)
+    {
+        $data = Product::where('id', $id)->get();
+        return response()->json([
+            'message' => 'Get Method Success loh',
+            "data" => $data
+        ]);
+    }
+
+    function edit ($id){
+
+        $data = Product::find($id);
+        return view('barang.edit',['data' => $data]);
+    }
+
+    function update(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $product->update($request->all());
+        return redirect('/product')->with('sukses','data berhasil diupdate');
+
+            
+    }
+
+    function delete($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect('/product')->with('sukses','data berhasil didelete');
+
+    }
+
+
+// API
+
+    function getapi()
+    {
+        $data = \App\Product::all();
+        return response()->json([
+            'message' => 'Get Method Success loh',
+            "data" => $data
+        ]);
+    }
+
+    function getbyidapi($id)
+    {
+        $data = Product::where('id', $id)->get();
+        return response()->json([
+            'message' => 'Get Method Success loh',
+            "data" => $data
+        ]);
+    }
+
+    function postapi(Request $request)
+    {
+        
         $product = new Product;
         $product->name = $request->name;
         $product->price = $request->price;
@@ -23,24 +107,6 @@ class ProductController extends Controller
                 "data" => $product
             ]
         );
-    }
-
-    function get()
-    {
-        $data = Product::all();
-        return response()->json([
-            'message' => 'Get Method Success loh',
-            "data" => $data
-        ]);
-    }
-
-    function getbyid($id)
-    {
-        $data = Product::where('id', $id)->get();
-        return response()->json([
-            'message' => 'Get Method Success loh',
-            "data" => $data
-        ]);
     }
 
     function put(Request $request, $id)
@@ -64,8 +130,7 @@ class ProductController extends Controller
         ], 400);
     }
 
-
-    function delete($id)
+    function deleteapi($id)
     {
         $product = Product::where('id', $id)->first();
         if ($product) {

@@ -17,11 +17,11 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/products', 'ProductController@get');
-Route::get('/products/{id}', 'ProductController@getbyid');
+Route::get('/product', 'ProductController@getapi');
+Route::get('/product/{id}', 'ProductController@getbyidapi');
 
-Route::post('/product', 'ProductController@post');
+Route::post('/product', 'ProductController@postapi');
 
-Route::put('/product/{id}', 'ProductController@put');
+Route::put('/product/{id}/edit', 'ProductController@put');
 
-Route::delete('/product/{id}', 'ProductController@delete');
+Route::delete('/product/{id}/delete', 'ProductController@deleteapi');

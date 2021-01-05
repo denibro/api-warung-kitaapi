@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+// menampilkan data
+Route::get('/product', 'ProductController@get');
+Route::get('/product/{id}', 'ProductController@getbyid');
+
+// input data
+Route::post('/product', 'ProductController@post');
+
+// ubah data
+Route::get('/product/{id}/edit', 'ProductController@edit');
+Route::post('/product/{id}/update', 'ProductController@update');
+
+// hapus data
+Route::get('/product/{id}/delete', 'ProductController@delete');
